@@ -1,23 +1,31 @@
-//document.addEventListener("DOMContentLoaded", () => {
-  document.querySelector('#create-task-form').addEventListener("submit", (e) => {
-    e.preventDefault()
-   createNewTask()
-   e.target.reset()
-  })
-//});
+const form = document.querySelector("form")
 
-const createNewTask = () => {
+const createTask = (taskValue, selectedPriority) => {
+  const li = document.createElement("li")
+  li.classList.add ("task-item", selectedPriority)
+  li.innerText = taskValue
+
+  const button = document.createElement("button")
+  button.className = "delete-btn"
+  button.innerText = "X"
+  button.addEventListener("click", () => li.remove())
   
-  const btn = document.createElement('button')
-  btn.textContent = 'x'
-  btn.addEventListener('click', handleDelete)
-  const newTaskDescription = document.getElementById("new-task-description")
-  const newTask = document.createElement("li")
-  newTask.innerText = newTaskDescription.value
-  tasks.append(newTask)
-  newTask.append(btn)
+  li.appendChild(button)
+  tasks.appendChild(li)
+
 }
 
-const handleDelete = (e) => {
- e.target.parentNode.remove()
-}
+form.addEventListener('submit', e => {
+  e.preventDefault()
+  let userInput = e.target["new-task-description"].value
+  const priorityLevel = e.target.priority.value
+  if (userInput !== "" && priorityLevel !== ""){
+  createTask(userInput, priorityLevel)
+  e.target.reset
+  } else {
+    alert("You must full out both inputs")
+  }
+})
+
+
+  
